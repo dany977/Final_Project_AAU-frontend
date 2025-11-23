@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 export default function Login() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -17,7 +16,7 @@ export default function Login() {
     e.preventDefault();
     try {
       if (mode === "register") {
-        await axios.post("http://localhost:7000/api/auth/register", {
+        await axios.post("API_URL/api/auth/register", {
           firstName,
           lastName,
           email,
