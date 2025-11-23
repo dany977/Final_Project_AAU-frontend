@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/axios";       
 import { useNavigate } from "react-router-dom";
+
 export default function Login() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,27 +15,34 @@ export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
     try {
+      // --------------------------
+      // REGISTER
+      // --------------------------
       if (mode === "register") {
-        await axios.post("API_URL/api/auth/register", {
+        await api.post("/auth/register", {
           firstName,
           lastName,
           email,
           username,
-          password
+          password,
         });
 
-        alert("Registered successfully! You can now login.");
+        alert("Registered successfully! Please login.");
         setMode("login");
         return;
       }
 
-      const res = await axios.post("http://localhost:7000/api/auth/login", {
+      // --------------------------
+      // LOGIN
+      // --------------------------
+      const res = await api.post("/auth/login", {
         username,
-        password
+        password,
       });
 
       localStorage.setItem("token", res.data.token);
       navigate("/farms");
+
     } catch (err) {
       alert(err.response?.data?.message || "Auth error");
       console.error(err);

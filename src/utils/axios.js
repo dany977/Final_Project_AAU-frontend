@@ -2,7 +2,7 @@
 import axios from "axios";
 const api = axios.create({
   baseURL: "https://final-project-aau-backend.onrender.com/api",
- withCredentials: true,
+  withCredentials: true,
 });
 
 // Automatically attach token 
