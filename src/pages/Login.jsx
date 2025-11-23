@@ -1,40 +1,30 @@
 import React, { useState } from "react";
-import api from "../utils/axios";       
+import api from "../utils/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [mode, setMode] = useState("login"); // login or register
+  const [mode, setMode] = useState("login");
 
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     try {
-      // --------------------------
-      // REGISTER
-      // --------------------------
       if (mode === "register") {
         await api.post("/auth/register", {
-          firstName,
-          lastName,
-          email,
           username,
+          email,
           password,
         });
 
-        alert("Registered successfully! Please login.");
+        alert("Registered successfully!");
         setMode("login");
         return;
       }
 
-      // --------------------------
-      // LOGIN
-      // --------------------------
       const res = await api.post("/auth/login", {
         username,
         password,
@@ -42,7 +32,6 @@ export default function Login() {
 
       localStorage.setItem("token", res.data.token);
       navigate("/farms");
-
     } catch (err) {
       alert(err.response?.data?.message || "Auth error");
       console.error(err);
@@ -53,34 +42,18 @@ export default function Login() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
         <h3 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          {mode === "login" ? "Login" : "Create Account"}
+          {mode === "login" ? "Login" : "Register"}
         </h3>
 
         <form onSubmit={submit} className="space-y-4">
           {mode === "register" && (
-            <>
-              <input
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-
-              <input
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-
-              <input
-                placeholder="Email Address"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </>
+            <input
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            />
           )}
 
           <input
