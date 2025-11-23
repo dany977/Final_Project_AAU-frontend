@@ -13,6 +13,7 @@ export default function Login() {
   const submit = async (e) => {
     e.preventDefault();
     try {
+      // REGISTER
       if (mode === "register") {
         await api.post("/auth/register", {
           username,
@@ -20,11 +21,12 @@ export default function Login() {
           password,
         });
 
-        alert("Registered successfully!");
+        alert("Registered successfully! Please login.");
         setMode("login");
         return;
       }
 
+      // LOGIN
       const res = await api.post("/auth/login", {
         username,
         password,
@@ -32,6 +34,7 @@ export default function Login() {
 
       localStorage.setItem("token", res.data.token);
       navigate("/farms");
+
     } catch (err) {
       alert(err.response?.data?.message || "Auth error");
       console.error(err);
@@ -46,12 +49,13 @@ export default function Login() {
         </h3>
 
         <form onSubmit={submit} className="space-y-4">
+
           {mode === "register" && (
             <input
-              placeholder="Email address"
+              placeholder="Email Address"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              type="email"
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           )}
