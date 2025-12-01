@@ -1,8 +1,15 @@
 {
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://final-project-aau-2025-backend.onrender.com/api/:path*"
+    }
+  ],
+  "redirects": [
+    {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/index.html",
+      "statusCode": 200
     }
   ]
 }
